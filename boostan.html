@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Tehran Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+      #map {
+        height: 750px;
+      }
+      @font-face {
+      font-family: 'bnazanin';
+      src: url('BNazanin.ttf');
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+
+    // initialize the map
+    var map = L.map("map").setView([35.7192, 51.3890], 11);
+
+    // add a base map tile layer
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "Map data &copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    // add a circle for each park
+    var parks = [
+          {
+            name: "لاله",
+            count: 76,
+            location: [35.710968231429604, 51.392637810157645],
+            radius: 350
+          },
+          {
+            name: "دانشجو",
+            count: 58,
+            location: [35.7005, 51.4064],
+            radius: 100
+          },
+          {
+            name: "ساعی",
+            count: 48,
+            location: [35.73622353525508, 51.41085730700844],
+            radius: 250
+          },
+          {
+            name: "قیطریه",
+            count: 47,
+            location: [35.79317313281303, 51.44904588855854],
+            radius: 250
+          },
+          {
+            name: "طالقانی",
+            count: 44,
+            location: [35.754355769619536, 51.42283006708561],
+            radius: 200
+          },
+          {
+            name: "آب و آتش",
+            count: 41,
+            location: [35.75391126942029, 51.418939009693126],
+            radius: 150
+          },
+          {
+            name: "تهران ویلا",
+            count: 40,
+            location: [35.722457433622644, 51.36661326464793],
+            radius: 75
+          },
+          {
+            name: "منتظر",
+            count: 40,
+            location: [35.723200997943735, 51.3685424724457],
+            radius: 100
+          },
+          {
+            name: "صدف",
+            count: 37,
+            location: [35.766829642674224, 51.48277468117224],
+            radius: 150
+          },
+          {
+            name: "افشین",
+            count: 32,
+            location: [35.605177614203825, 51.31229460727681],
+            radius: 100
+          },
+          {
+            name: "نهج البلاغه",
+            count: 30,
+            location: [35.752123696874534, 51.34175621650975],
+            radius: 500
+          },
+          {
+            name: "محله اذربایجان",
+            count: 29,
+            location: [35.70008536095344, 51.365198439124676],
+            radius: 40
+          },
+          {
+            name: "بهجت آباد",
+            count: 28,
+            location: [35.71470929015985, 51.41084566755988],
+            radius: 125
+          },
+          {
+            name: "نهاوندیان",
+            count: 28,
+            location: [35.73554748089617, 51.33268878398766],
+            radius: 75
+          },
+          {
+            name: "طرشت",
+            count: 27,
+            location: [35.703419680229224, 51.34684244539864],
+            radius: 50
+          },
+          {
+            name: "شهید عراقی",
+            count: 27,
+            location: [35.762083259400704, 51.463107710493674],
+            radius: 25
+          },
+          {
+            name: "آیینه",
+            count: 26,
+            location: [35.69882853782161, 51.363381181783836],
+            radius: 37.5
+          },
+          {
+            name: "سرسبز",
+            count: 25,
+            location: [35.73202166617651, 51.36037777428371],
+            radius: 220
+          },
+          {
+            name: "اقاقیا",
+            count: 24,
+            location: [35.71451660519402, 51.385071694295746],
+            radius: 75
+          },
+          {
+            name: "چیتگر",
+            count: 23,
+            location: [35.729557911025076, 51.212066316669194],
+            radius: 2200
+          },
+          {
+            name: "پارک باصفا ۱",
+            count: 22,
+            location: [35.721531039634506, 51.31606051066713],
+            radius: 75
+          },
+          {
+            name: "تولد",
+            count: 21,
+            location: [35.77462391663367, 51.48589033315272],
+            radius: 220
+          },
+          {
+            name: "هنرمندان",
+            count: 21,
+            location: [35.71007549195716, 51.421041735360944],
+            radius: 170
+          },
+          {
+            name: "پرواز",
+            count: 21,
+            location: [35.78942620189309, 51.35683226719524],
+            radius: 350
+          },
+          {
+            name: "گلشهر",
+            count: 20,
+            location: [35.61504446843883, 51.29907818930959],
+            radius: 250
+          },
+          {
+            name: "طبیعت",
+            count: 20,
+            location: [35.71826565082795, 51.15242454411831],
+            radius: 650
+          },
+          {
+            name: "ناطقی",
+            count: 20,
+            location: [35.69643912240546, 51.44041018095434],
+            radius: 40
+          },
+          {
+            name: "فخرآباد",
+            count: 20,
+            location: [35.697603205120004, 51.43871500705614],
+            radius: 20
+          },
+          {
+            name: "پاکبان",
+            count: 20,
+            location: [35.51599360300224, 51.356904756156645],
+            radius: 35
+          },
+          {
+            name: "صنوبر",
+            count: 20,
+            location: [35.7409283885173, 51.45486204599164],
+            radius: 40
+          },
+          {
+            name: "شهرآرا",
+            count: 20,
+            location: [35.723610717921794, 51.37296507044534],
+            radius: 120
+          },
+          {
+            name: "گفتگو",
+            count: 19,
+            location: [35.73817674536419, 51.38225413096871],
+            radius: 400
+          },
+          {
+            name: "سپیده",
+            count: 18,
+            location: [35.7315140920463, 51.46277320666],
+            radius: 20
+          },
+          {
+            name: "جاوید",
+            count: 18,
+            location: [35.70366654375395, 51.35679667688064],
+            radius: 50
+          },
+          {
+            name: "گل وش",
+            count: 18,
+            location: [35.730566780848505, 51.46390498103297],
+            radius: 40
+          },
+          {
+            name: "مریم",
+            count: 17,
+            location: [35.71570192610126, 51.41531070582984],
+            radius: 75
+          },
+          {
+            name: "ولایت",
+            count: 15,
+            location: [35.64536402205304, 51.380925128714225],
+            radius: 1000
+          },
+          {
+            name: "اعظم",
+            count: 14,
+            location: [35.737287241327614, 51.33030900230826],
+            radius: 100
+          },
+          {
+            name: "ملت",
+            count: 12,
+            location: [35.77792285405709, 51.409808784087076],
+            radius: 350
+          },
+          {
+            name: "بهار آزادی",
+            count: 10,
+            location: [35.76603999071314, 51.289495615342105],
+            radius: 100
+          },
+          {
+            name: "لطفعلی خانی",
+            count: 10,
+            location: [35.70908450040612, 51.35014296876321],
+            radius: 90
+          },
+          {
+            name: "نسترن",
+            count: 13,
+            location: [35.70422999074904, 51.359181726520454],
+            radius: 90
+          },
+          {
+            name: "بزرگمهر",
+            count: 10,
+            location: [35.762429491290234, 51.31032791140624],
+            radius: 100
+          },
+          {
+            name: "شهدای گمنام",
+            count: 6,
+            location: [35.673967926648935, 51.4481096594011],
+            radius: 80
+          },
+          {
+            name: "بخشی فرد",
+            count: 10,
+            location: [35.706574061495424, 51.45598629083516],
+            radius: 50
+          },
+          {
+            name: "محبت",
+            count: 6,
+            location: [35.71137837327511, 51.34907845092324],
+            radius: 80
+          },
+          {
+            name: "معلم",
+            count: 4,
+            location: [35.687641967266174, 51.34725367661813],
+            radius: 120
+          },
+          {
+            name: "شهید شرق آزادی",
+            count: 2,
+            location: [35.766653634621, 51.295945145504675],
+            radius: 150
+          },
+          {
+            name: "رفتگر",
+            count: 1,
+            location: [35.72518545094106, 51.38226213217922],
+            radius: 50
+          },
+          {
+            name: "شقایق",
+            count: 1,
+            location: [35.7611342748362, 51.290879378202845],
+            radius: 50
+          }
+        ];
+
+
+    
+
+    var circles = []; // Array to store circle objects
+
+    parks.forEach(function (park) {
+      var circle = L.circle(park.location, {
+        radius: park.radius,
+        color: '#0074D9',  // New color (blue)
+        weight: 2,
+        fillColor: '#00EB29',  // New color (blue)
+        fillOpacity: 0.2
+      }).addTo(map);
+      circles.push(circle); // Add circle object to the array
+
+      // Bind tooltip to the park circle
+      circle.bindTooltip(park.name);
+
+      // Define tooltip options
+      var tooltipOptions = {
+        permanent: false,
+        direction: 'center',
+        className: 'custom-tooltip'
+      };
+
+      // Add data to the tooltip
+      circle.bindTooltip("<div style = 'font-family:bnazanin;'><b>" + park.name + "</b><br>تعداد : <a style='color:red'>" + park.count + "</a></div>", tooltipOptions);
+    });
+    </script>
+  </body>
+</html>
